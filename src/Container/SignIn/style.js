@@ -13,7 +13,7 @@ const SingInStyle = styled.div`
   .sbtn {
     height: 40px;
     width: 30%;
-    margin-top: 1.5em;
+    margin-top: 3.1em;
     border: none;
     background-color: skyblue;
   }

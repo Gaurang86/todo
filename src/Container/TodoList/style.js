@@ -92,6 +92,13 @@ const DsaStyle = styled.div`
       background-color: #fff;
     }
   }
+  .task-bar {
+    display: flex;
+    justify-content: space-evenly;
+    font-weight: 500;
+    color: slategrey;
+    font-size: 1.1em;
+  }
   @media screen and (max-width: 600px) {
     .map-container {
       border-radius: 0;

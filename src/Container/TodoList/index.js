@@ -1,8 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import { DsaStyle } from './style'
 import { useDispatch } from 'react-redux'
-import { addTask } from '../../redux/TodoList/action'
+import {
+  addTask,
+  deleTask,
+  editTask,
+  colorChange,
+} from '../../redux/TodoList/action'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,36 +14,41 @@ const TodoList = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const data = useSelector((data) => data.SignUpReducer)
-  const todoAppList = useSelector((data) => data.aTask)
+  const todoAppList = useSelector((data) => data.todoReducer)
   const [todos, setTodos] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [editIndex, setEditIndex] = useState(undefined)
+  const complited = todoAppList
+    .filter((item) => item.color === '#005500')
+    .map((item) => item.color)
+  const InComplete = todoAppList
+    .filter((item) => item.color === '#880808')
+    .map((item) => item.color)
 
   const todo = data?.findIndex((list) => list.email && list.password) > -1
   useEffect(() => {
-    if (todo) {
-      navigate('/todolist')
-    } else {
-      navigate('/')
-    }
+    // if (todo) {
+    //   navigate('/todolist')
+    // } else {
+    //   navigate('/')
+    // }
   }, [])
 
   const handleSubmit = (e) => {
-    console.log(todoAppList)
     e.preventDefault()
-    dispatch(addTask(todos))
     const trimmedValue = inputValue.trim()
     if (!trimmedValue) return setInputValue('')
     if (!inputValue) return
     if (editIndex === undefined) {
-      setTodos([...todos, { text: inputValue, color: '#87CEEB' }])
+      setTodos([...todos, { text: inputValue, color: '#880808' }])
+      console.log(todos)
     } else {
       const newtodos = [...todos]
       newtodos[editIndex].text = inputValue
       setTodos(newtodos)
       setEditIndex(undefined)
     }
-
+    dispatch(addTask([...todos, { text: inputValue, color: '#880808' }]))
     setInputValue('')
   }
 
@@ -47,7 +56,7 @@ const TodoList = () => {
     const newtodos = [...todos]
     newtodos.splice(index, 1)
     setTodos(newtodos)
-    console.log('editIndex', editIndex, index)
+    dispatch(deleTask(newtodos))
     if (editIndex === index) {
       setEditIndex(undefined)
       setInputValue('')
@@ -59,12 +68,14 @@ const TodoList = () => {
   const handleEdit = (index) => {
     setEditIndex(index)
     setInputValue(todos[index].text)
+    dispatch(editTask(todos))
   }
 
   const handleColorChange = (index, color) => {
     const newtodos = [...todos]
     newtodos[index].color = color
     setTodos(newtodos)
+    dispatch(colorChange(newtodos))
   }
 
   return (
@@ -84,12 +95,15 @@ const TodoList = () => {
             Add Task
           </button>
         </form>
-        <span>Total Task : {todos?.length}</span>
-
+        <div className="task-bar">
+          <span>Total Task : {todos?.length}</span>
+          <span>Complited Task : {complited.length}</span>
+          <span>In-Complete Task : {InComplete.length}</span>
+        </div>
         <hr />
       </div>
       <ul>
-        {todos?.map((todo, index) => (
+        {todoAppList?.map((todo, index) => (
           <li key={index}>
             <div
               className="map-container"

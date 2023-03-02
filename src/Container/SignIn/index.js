@@ -58,6 +58,7 @@ const SignIn = () => {
               />
               <Input
                 name="password"
+                type='password'
                 className="SingUp_Input"
                 placeholder={'Password'}
                 onChange={handleChange}

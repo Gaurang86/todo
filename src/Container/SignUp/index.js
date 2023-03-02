@@ -12,16 +12,21 @@ const SignUp = () => {
   const singUpValidation = Yup.object().shape({
     email: Yup.string().email().required('Please Enter your Email'),
     password: Yup.string()
-      .max(19, 'invalid')
+      .max(16, 'invalid')
       .matches(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
         'Password Should have 1 UpperCase, 1 Number, 1 Special character and atleast length of 8.',
       )
       .required('Please Enter Password'),
+    confirmpassword: Yup.string()
+      .max(16, 'invalid')
+      .required()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match'),
   })
   const signUpData = {
     email: '',
     password: '',
+    confirmpassword: '',
   }
   const onSubmit = (values, actions) => {
     dispatch(SignUpAction(values))
@@ -51,11 +56,21 @@ const SignUp = () => {
               />
               <Input
                 name="password"
+                type="password"
                 className="SingUpInput"
                 placeholder={'Password'}
                 onChange={handleChange}
                 values={values.password}
                 error={touched.password && errors.password}
+              />
+              <Input
+                name="confirmpassword"
+                type="password"
+                className="SingUpInput"
+                placeholder={'Confirm-Password'}
+                onChange={handleChange}
+                values={values.confirmpassword}
+                error={touched.confirmpassword && errors.confirmpassword}
               />
               <button className="sbtn" type="submit">
                 SignUp
