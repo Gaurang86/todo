@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 const SignIn = () => {
   const navigate = useNavigate()
   const singupData = useSelector((data) => data.SignUpReducer)
-  console.log(singupData)
+
   const singInValidation = Yup.object().shape({})
   const signInData = {
     email: '',
@@ -58,7 +58,7 @@ const SignIn = () => {
               />
               <Input
                 name="password"
-                type='password'
+                type="password"
                 className="SingUp_Input"
                 placeholder={'Password'}
                 onChange={handleChange}

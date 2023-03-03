@@ -24,6 +24,7 @@ const SignUp = () => {
       .oneOf([Yup.ref('password'), null], 'Passwords must match'),
   })
   const signUpData = {
+    user: '',
     email: '',
     password: '',
     confirmpassword: '',
@@ -32,7 +33,6 @@ const SignUp = () => {
     dispatch(SignUpAction(values))
     actions.resetForm()
     navigate('/signin')
-    console.log(values)
   }
 
   return (
@@ -47,7 +47,17 @@ const SignUp = () => {
           {({ errors, touched, handleChange, values }) => (
             <Form>
               <Input
+                name="user"
+                type="text"
+                className="SingUpInput"
+                placeholder={'User-Name'}
+                onChange={handleChange}
+                values={values.user}
+                error={touched.user && errors.user}
+              />
+              <Input
                 name="email"
+                type="email"
                 className="SingUpInput"
                 placeholder={'Email'}
                 onChange={handleChange}

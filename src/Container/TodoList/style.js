@@ -111,11 +111,11 @@ const DsaStyle = styled.div`
       float: right;
     }
     .minpt {
-      width: 100%;
+      width: 93%;
       font-size: 14px;
     }
     .ibtn {
-      width: 90%;
+      width: 89%;
       font-size: 14px;
       margin-top: 1em;
       height: 3.4em;

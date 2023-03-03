@@ -27,11 +27,11 @@ const TodoList = () => {
 
   const todo = data?.findIndex((list) => list.email && list.password) > -1
   useEffect(() => {
-    // if (todo) {
-    //   navigate('/todolist')
-    // } else {
-    //   navigate('/')
-    // }
+    if (todo) {
+      navigate('/todolist')
+    } else {
+      navigate('/')
+    }
   }, [])
 
   const handleSubmit = (e) => {
@@ -40,15 +40,16 @@ const TodoList = () => {
     if (!trimmedValue) return setInputValue('')
     if (!inputValue) return
     if (editIndex === undefined) {
-      setTodos([...todos, { text: inputValue, color: '#880808' }])
-      console.log(todos)
+      const newtodos = [...todos, { text: inputValue, color: '#880808' }]
+      setTodos(newtodos)
+      dispatch(addTask(newtodos))
     } else {
       const newtodos = [...todos]
       newtodos[editIndex].text = inputValue
       setTodos(newtodos)
+      dispatch(editTask(newtodos))
       setEditIndex(undefined)
     }
-    dispatch(addTask([...todos, { text: inputValue, color: '#880808' }]))
     setInputValue('')
   }
 
@@ -68,7 +69,6 @@ const TodoList = () => {
   const handleEdit = (index) => {
     setEditIndex(index)
     setInputValue(todos[index].text)
-    dispatch(editTask(todos))
   }
 
   const handleColorChange = (index, color) => {
